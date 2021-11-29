@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>nginx-monitoring</title>
+</head>
+<body>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.6.0/dist/chart.min.js"></script>
+
+<div class="chart-container" style="position: relative; height: 200px; width: 100%;">
+    <canvas id="rps" width="100" height="100"></canvas>
+</div>
+<script>
+    let requests = 0
+
+    setInterval(
+        function () {
+            fetch('status')
+                .then(response => response.json())
+                .then(data => {
+                    let rps;
+                    if (requests === 0) {
+                        requests = data.requests
+                        rps = 0
+                    } else {
+                        rps = data.requests - requests - 1;
+                        requests = data.requests
+                    }
+                    addData(rps_chart, new Date().toLocaleString([], {hour: '2-digit', minute: '2-digit', second: "2-digit"}), rps)
+                });
+        },
+        1000
+    )
+
+    const ctx = document.getElementById('rps').getContext('2d');
+    const rps_chart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            datasets: [{
+                label: 'Requests/s',
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            aspectRatio: 5,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+    function addData(chart, label, data) {
+        chart.data.labels.push(label);
+        chart.data.datasets.forEach((dataset) => {
+            if (dataset.data.length > 120){
+                dataset.data.shift()
+                chart.data.labels.shift();
+            }
+            dataset.data.push(data);
+        });
+        chart.update();
+    }
+
+</script>
+</body>
+</html>
