@@ -30,8 +30,8 @@ looking charts.**
 Make sure you have docker installed and configured correctly
 1. Build the container by running ```docker build . -t nginx-monitoring```
 2. Run the container using
-```docker run -p 5000:5000 --env STATUS_URL=_https://yourwebsite.com/basic_status_ nginx-monitoring```
+```docker run -p 5000:5000 --env STATUS_URL=https://example.com/basic_status nginx-monitoring```
 and feel free to edit parameters so they fit your needs.
 3. Now you can access nginx-monitoring at 127.0.0.1:5000
 
-Make sure to replace _https://yourwebsite.com/basic_status_ with your stub_status url.
+Make sure to replace _https://example.com/basic_status_ with your stub_status url.
