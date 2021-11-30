@@ -1,12 +1,12 @@
-#nginx-monitoring
+# nginx-monitoring
 A simple flask app that displays stats from your nginx servers stub_status page.
-##Currently shown stats
+## Currently shown stats
 - [x] Requests/s
 - [ ] Connections
 - [ ] Reading
 - [ ] Waiting
 - [ ] Writing
-##How it works
+## How it works
 For this tool to work, you need to enable the stub_status page of
 your nginx server. To do so, add following lines to your nginx
 server config, usually located at /etc/nginx/nginx.conf
@@ -26,7 +26,7 @@ Reading: 6 Writing: 179 Waiting: 106
 This tool takes the data from this page and puts them into **nice
 looking charts.**
 ![chart](./assets/nginx-monitoring.png)
-##Setup
+## Setup
 Make sure you have docker installed and configured correctly
 1. ```docker build . -t nginx-monitoring```
 2. ```docker run -p 5000:5000 --env STATUS_URL=https://yourwebsite.com/basic_status nginx-monitoring```
